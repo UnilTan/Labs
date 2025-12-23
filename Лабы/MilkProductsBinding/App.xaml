@@ -3,6 +3,107 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- ЛР-15: Стили для Window, Button, DataGridRow -->
+        
+        <!-- 1. Стиль для Window -->
+        <Style TargetType="{x:Type Window}" x:Key="WinStyle">
+            <Setter Property="Background" Value="BlueViolet"/>
+            <Setter Property="BorderBrush" Value="DarkGreen"/>
+            <Setter Property="BorderThickness" Value="5"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        
+        <!-- 2. Стиль для всех Button (глобальный) -->
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="BorderBrush" Value="DarkBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="315" ShadowDepth="3" Opacity="0.5"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightYellow"/>
+                    <Setter Property="BorderBrush" Value="Orange"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="Gold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 3. Стиль для DataGridRow -->
+        <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="Coral"/>
+            <Setter Property="BorderBrush" Value="DarkRed"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="LightBlue"/>
+                    <Setter Property="Foreground" Value="DarkBlue"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightGreen"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 4. Акцентный стиль для особых случаев -->
+        <Style TargetType="{x:Type Button}" x:Key="AccentButtonStyle">
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="DarkRed"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Direction="315" ShadowDepth="5" Opacity="0.7"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="DarkRed"/>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 5. Стиль для TextBox -->
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="BorderBrush" Value="DarkBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Background" Value="LightCyan"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="LightYellow"/>
+                    <Setter Property="BorderBrush" Value="Orange"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 6. Стиль для GroupBox -->
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="BorderBrush" Value="DarkGreen"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
     </Application.Resources>
 </Application>

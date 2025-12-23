@@ -111,3 +111,10 @@ C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\D
 C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\ref\MilkProductsBinding.dll
 C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\Lab12Window.baml
 C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\Lab12Window.g.cs
+C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\Lab13Window.baml
+C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\Lab14Window.baml
+C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\Lab13Window.g.cs
+C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\Lab14Window.g.cs
+C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\Lab15StylesWindow.baml
+C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\Lab15StylesWindow.g.cs
+C:\Users\Sofia\OneDrive\Dokumente\GitHub\Labs\Лабы\MilkProductsBinding\obj\Debug\net6.0-windows\App.baml

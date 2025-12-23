@@ -612,5 +612,77 @@ namespace MilkProductsBinding
             db?.Dispose();
             base.OnClosed(e);
         }
+
+        #region Открытие ЛР-13
+
+        /// <summary>
+        /// Открывает окно ЛР-13 с вычисляемыми свойствами
+        /// </summary>
+        private void OpenLab13_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Lab13Window lab13Window = new Lab13Window();
+                lab13Window.ShowDialog();
+                
+                txtInfo.Text = "Открыто окно ЛР-13: Работа со свойствами класса - вычисляемые свойства";
+                statusText.Text = "ЛР-13 запущена";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка открытия ЛР-13: {ex.Message}", "Ошибка", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        #endregion
+
+        #region Открытие ЛР-14
+
+        /// <summary>
+        /// Открывает окно ЛР-14 с изображениями
+        /// </summary>
+        private void OpenLab14_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Lab14Window lab14Window = new Lab14Window();
+                lab14Window.ShowDialog();
+                
+                txtInfo.Text = "Открыто окно ЛР-14: Работа с изображениями - файловая система";
+                statusText.Text = "ЛР-14 запущена";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка открытия ЛР-14: {ex.Message}", "Ошибка", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        #endregion
+
+        #region Демонстрация стилей ЛР-15
+
+        /// <summary>
+        /// Демонстрирует различные стили и шаблоны ЛР-15
+        /// </summary>
+        private void DemoStyles_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Lab15StylesWindow stylesWindow = new Lab15StylesWindow();
+                stylesWindow.ShowDialog();
+                
+                txtInfo.Text = "Открыто окно демонстрации стилей ЛР-15. Все элементы интерфейса стилизованы согласно требованиям.";
+                statusText.Text = "ЛР-15: Демонстрация стилей завершена";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка демонстрации стилей: {ex.Message}", "Ошибка", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        #endregion
     }
 }

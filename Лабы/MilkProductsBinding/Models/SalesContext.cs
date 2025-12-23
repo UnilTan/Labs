@@ -44,6 +44,11 @@ namespace MilkProductsBinding.Models
                 entity.Property(e => e.IdSale).HasColumnName("SaleId");
                 entity.Property(e => e.CustomerName).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
+                
+                // Новые поля для ЛР-13
+                entity.Property(e => e.SummaSale).HasColumnType("decimal(10, 2)");
+                entity.Property(e => e.DiscountSale).HasColumnType("decimal(5, 2)");
+                entity.Property(e => e.Resultat).HasColumnType("decimal(10, 2)");
             });
 
             modelBuilder.Entity<SaleDetails>(entity =>
@@ -54,6 +59,9 @@ namespace MilkProductsBinding.Models
                 entity.Property(e => e.IdProductDetailSale).HasColumnName("ProductId");
                 entity.Property(e => e.QuantityProduct).HasColumnName("Quantity");
                 entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+                
+                // Новое поле для ЛР-13
+                entity.Property(e => e.SummaProduct).HasColumnType("decimal(10, 2)");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.SaleDetails)

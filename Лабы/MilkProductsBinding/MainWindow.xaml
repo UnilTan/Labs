@@ -1,8 +1,9 @@
 <Window x:Class="MilkProductsBinding.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Лабораторная работа 11 - Привязки данных Binding" Height="700" Width="1000"
-        WindowStartupLocation="CenterScreen">
+        Title="ЛР-15 - Стили и шаблоны WPF" Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource WinStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,9 +20,10 @@
 
         <!-- Заголовок -->
         <TextBlock Grid.Row="0" Grid.ColumnSpan="4" 
-                   Text="Привязки данных Binding - Молочные продукты" 
+                   Text="ЛР-15: Стили и шаблоны WPF - Молочные продукты" 
                    FontSize="20" FontWeight="Bold" 
-                   HorizontalAlignment="Center" Margin="10"/>
+                   HorizontalAlignment="Center" Margin="10"
+                   Foreground="White"/>
 
         <!-- 1. Простая привязка к Product -->
         <GroupBox Grid.Column="0" Grid.Row="1" Header="1. Простая привязка - Product" Margin="5">
@@ -65,42 +67,89 @@
             </Grid>
         </GroupBox>
 
-        <!-- 3. Простая привязка ComboBox -->
-        <GroupBox Grid.Column="2" Grid.Row="1" Header="3. Простая привязка ComboBox" Margin="5">
+        <!-- 3. Примеры шаблонов кнопок -->
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="3. Шаблоны кнопок" Margin="5">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="Выберите продукт:" FontWeight="Bold" Margin="2"/>
-                <ComboBox x:Name="cmbProduct" 
-                          DisplayMemberPath="nameProduct" 
-                          SelectedValuePath="idProduct"
-                          SelectionChanged="CmbProduct_SelectionChanged"
-                          Margin="2"/>
-                <TextBlock Text="Выбранный ID:" FontWeight="Bold" Margin="2,10,2,2"/>
-                <TextBox x:Name="txtSelectedId" IsReadOnly="True" Margin="2"/>
+                <!-- Кнопка с круглым шаблоном -->
+                <TextBlock Text="Кнопка с круглым шаблоном:" FontWeight="Bold" Margin="2" Foreground="White"/>
+                <Button Content="btn1" Height="60" Width="100" Margin="5">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Ellipse x:Name="outerCircle" Width="100" Height="100" Fill="SaddleBrown"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                
+                <!-- Кнопка с прямоугольным шаблоном -->
+                <TextBlock Text="Кнопка с прямоугольным шаблоном:" FontWeight="Bold" Margin="2,10,2,2" Foreground="White"/>
+                <Button Content="btn2" Height="30" Margin="10">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="brd" BorderBrush="Black" BorderThickness="3"
+                                    CornerRadius="15" Background="Aquamarine">
+                                <TextBlock Text="Button" TextAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </StackPanel>
         </GroupBox>
 
-        <!-- 4. Сложная привязка ComboBox -->
-        <GroupBox Grid.Column="3" Grid.Row="1" Header="4. Сложная привязка ComboBox" Margin="5">
-            <StackPanel x:Name="stDetailCombo" Orientation="Vertical">
-                <TextBlock Text="ID Продажи" FontWeight="Bold"/>
-                <TextBox Text="{Binding IdSale, Mode=TwoWay}" Margin="2"/>
-                <TextBlock Text="Продукт:" FontWeight="Bold"/>
-                <ComboBox x:Name="cmbProductDetail" 
-                          DisplayMemberPath="nameProduct" 
-                          SelectedValuePath="idProduct"
-                          SelectedValue="{Binding IdProductDetailSale, Mode=TwoWay}"
-                          Margin="2"/>
-                <TextBlock Text="Количество:" FontWeight="Bold"/>
-                <TextBox Text="{Binding QuantityProduct, Mode=TwoWay}" Margin="2"/>
-                <TextBlock Text="Цена за единицу:" FontWeight="Bold"/>
-                <TextBox Text="{Binding UnitPrice, Mode=TwoWay}" Margin="2"/>
-            </StackPanel>
+        <!-- 4. ComboBox привязки -->
+        <GroupBox Grid.Column="3" Grid.Row="1" Header="4. ComboBox привязки" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Простая привязка ComboBox -->
+                <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
+                    <TextBlock Text="Простая привязка:" FontWeight="Bold" Foreground="White"/>
+                    <ComboBox x:Name="cmbProduct" 
+                              DisplayMemberPath="nameProduct" 
+                              SelectedValuePath="idProduct"
+                              SelectionChanged="CmbProduct_SelectionChanged"
+                              Margin="2"/>
+                    <TextBlock Text="Выбранный ID:" FontWeight="Bold" Foreground="White"/>
+                    <TextBox x:Name="txtSelectedId" IsReadOnly="True" Margin="2"/>
+                </StackPanel>
+                
+                <!-- Сложная привязка ComboBox -->
+                <StackPanel Grid.Row="1" x:Name="stDetailCombo" Orientation="Vertical" Margin="5">
+                    <TextBlock Text="Сложная привязка:" FontWeight="Bold" Foreground="White"/>
+                    <ComboBox x:Name="cmbProductDetail" 
+                              DisplayMemberPath="nameProduct" 
+                              SelectedValuePath="idProduct"
+                              SelectedValue="{Binding IdProductDetailSale, Mode=TwoWay}"
+                              Margin="2"/>
+                    <TextBox Text="{Binding QuantityProduct, Mode=TwoWay}" 
+                             Margin="2" ToolTip="Количество"/>
+                </StackPanel>
+                
+                <!-- Canvas с фоном -->
+                <Canvas Grid.Row="2" Height="100" Margin="5">
+                    <Canvas.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="LightBlue" Offset="0"/>
+                            <GradientStop Color="DarkBlue" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Canvas.Background>
+                    <Button Content="Btn" Canvas.Left="20" Canvas.Top="20" Width="40" Height="25"
+                            Background="Red" Foreground="White"/>
+                </Canvas>
+            </Grid>
         </GroupBox>
 
         <!-- Кнопки управления -->
         <GroupBox Grid.Row="2" Grid.ColumnSpan="4" Header="Управление данными" Margin="5">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -135,11 +184,22 @@
                 <!-- Третья строка кнопок -->
                 <Button Grid.Row="2" Grid.Column="0" Content="Пересоздать БД (10 продуктов)" 
                         Click="RecreateDatabase_Click" Margin="5" Height="30"
-                        Background="LightBlue" FontWeight="Bold"/>
+                        Style="{StaticResource AccentButtonStyle}"/>
                 <Button Grid.Row="2" Grid.Column="1" Content="🚀 Открыть ЛР-12" 
                         Click="OpenLab12_Click" Margin="5" Height="30"
                         Background="Orange" FontWeight="Bold" FontSize="14"/>
-                <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" x:Name="txtInfo" 
+                <Button Grid.Row="2" Grid.Column="2" Content="📊 Открыть ЛР-13" 
+                        Click="OpenLab13_Click" Margin="5" Height="30"
+                        Background="LightGreen" FontWeight="Bold" FontSize="14"/>
+                <Button Grid.Row="2" Grid.Column="3" Content="🎨 Демо стилей" 
+                        Click="DemoStyles_Click" Margin="5" Height="30"
+                        Style="{StaticResource AccentButtonStyle}"/>
+                
+                <!-- Четвертая строка кнопок -->
+                <Button Grid.Row="3" Grid.Column="0" Content="🖼️ Открыть ЛР-14" 
+                        Click="OpenLab14_Click" Margin="5" Height="30"
+                        Background="LightPink" FontWeight="Bold" FontSize="14"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" x:Name="txtInfo" 
                            Text="Информация о выполненных операциях будет отображаться здесь"
                            Background="LightYellow" Padding="10" Margin="5"
                            TextWrapping="Wrap"/>
