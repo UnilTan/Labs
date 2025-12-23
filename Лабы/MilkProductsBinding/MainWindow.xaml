@@ -1,0 +1,153 @@
+<Window x:Class="MilkProductsBinding.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Лабораторная работа 11 - Привязки данных Binding" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" 
+                   Text="Привязки данных Binding - Молочные продукты" 
+                   FontSize="20" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="10"/>
+
+        <!-- 1. Простая привязка к Product -->
+        <GroupBox Grid.Column="0" Grid.Row="1" Header="1. Простая привязка - Product" Margin="5">
+            <StackPanel x:Name="stProduct" Orientation="Vertical">
+                <TextBlock Text="Артикул" FontWeight="Bold"/>
+                <TextBox Text="{Binding idProduct}" Margin="2"/>
+                <TextBlock Text="Наименование" FontWeight="Bold"/>
+                <TextBox Text="{Binding nameProduct, Mode=TwoWay}" Margin="2"/>
+                <TextBlock Text="Цена" FontWeight="Bold"/>
+                <TextBox Text="{Binding priceProduct, Mode=TwoWay}" Margin="2"/>
+                <TextBlock Text="Категория" FontWeight="Bold"/>
+                <TextBox Text="{Binding Category}" Margin="2"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- 2. Сложная привязка к SaleDetails -->
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="2. Сложная привязка - SaleDetails" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel x:Name="stDetail" Grid.Row="0" Orientation="Vertical">
+                    <TextBlock Text="ID Детали" Foreground="DarkBlue" FontWeight="Bold"/>
+                    <TextBox Text="{Binding IdDetailSale}" Margin="2"/>
+                    <TextBlock Text="Артикул" Foreground="DarkBlue" FontWeight="Bold"/>
+                    <TextBox x:Name="txtArticul" Text="{Binding IdProductDetailSale}" Margin="2"/>
+                    <TextBlock Text="Наименование" Foreground="DarkBlue" FontWeight="Bold"/>
+                    <TextBox x:Name="txtNameProduct" Text="{Binding Product.nameProduct}" Margin="2"/>
+                    <TextBlock Text="Цена" Foreground="DarkBlue" FontWeight="Bold"/>
+                    <TextBox x:Name="txtPriceProduct" Text="{Binding Product.priceProduct}" Margin="2"/>
+                    <TextBlock Text="Количество" Foreground="DarkBlue" FontWeight="Bold"/>
+                    <TextBox x:Name="txtQuantityProduct" Text="{Binding QuantityProduct, Mode=TwoWay}" Margin="2"/>
+                </StackPanel>
+                
+                <Button Grid.Row="1" Content="Показать в формате" 
+                        Click="ShowFormattedData_Click" 
+                        Margin="5" Height="25" 
+                        Background="LightGreen"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- 3. Простая привязка ComboBox -->
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="3. Простая привязка ComboBox" Margin="5">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Выберите продукт:" FontWeight="Bold" Margin="2"/>
+                <ComboBox x:Name="cmbProduct" 
+                          DisplayMemberPath="nameProduct" 
+                          SelectedValuePath="idProduct"
+                          SelectionChanged="CmbProduct_SelectionChanged"
+                          Margin="2"/>
+                <TextBlock Text="Выбранный ID:" FontWeight="Bold" Margin="2,10,2,2"/>
+                <TextBox x:Name="txtSelectedId" IsReadOnly="True" Margin="2"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- 4. Сложная привязка ComboBox -->
+        <GroupBox Grid.Column="3" Grid.Row="1" Header="4. Сложная привязка ComboBox" Margin="5">
+            <StackPanel x:Name="stDetailCombo" Orientation="Vertical">
+                <TextBlock Text="ID Продажи" FontWeight="Bold"/>
+                <TextBox Text="{Binding IdSale, Mode=TwoWay}" Margin="2"/>
+                <TextBlock Text="Продукт:" FontWeight="Bold"/>
+                <ComboBox x:Name="cmbProductDetail" 
+                          DisplayMemberPath="nameProduct" 
+                          SelectedValuePath="idProduct"
+                          SelectedValue="{Binding IdProductDetailSale, Mode=TwoWay}"
+                          Margin="2"/>
+                <TextBlock Text="Количество:" FontWeight="Bold"/>
+                <TextBox Text="{Binding QuantityProduct, Mode=TwoWay}" Margin="2"/>
+                <TextBlock Text="Цена за единицу:" FontWeight="Bold"/>
+                <TextBox Text="{Binding UnitPrice, Mode=TwoWay}" Margin="2"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Кнопки управления -->
+        <GroupBox Grid.Row="2" Grid.ColumnSpan="4" Header="Управление данными" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Первая строка кнопок -->
+                <Button Grid.Row="0" Grid.Column="0" Content="Загрузить первый Product" 
+                        Click="LoadFirstProduct_Click" Margin="5" Height="30"/>
+                <Button Grid.Row="0" Grid.Column="1" Content="Загрузить первый SaleDetail" 
+                        Click="LoadFirstSaleDetail_Click" Margin="5" Height="30"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="Сохранить изменения" 
+                        Click="SaveChanges_Click" Margin="5" Height="30"/>
+                <Button Grid.Row="0" Grid.Column="3" Content="Показать связанные поля" 
+                        Click="ShowRelatedFields_Click" Margin="5" Height="30"/>
+
+                <!-- Вторая строка кнопок -->
+                <Button Grid.Row="1" Grid.Column="0" Content="Новый Product" 
+                        Click="NewProduct_Click" Margin="5" Height="30"/>
+                <Button Grid.Row="1" Grid.Column="1" Content="Новый SaleDetail" 
+                        Click="NewSaleDetail_Click" Margin="5" Height="30"/>
+                <Button Grid.Row="1" Grid.Column="2" Content="Добавить Product в БД" 
+                        Click="AddProduct_Click" Margin="5" Height="30"/>
+                <Button Grid.Row="1" Grid.Column="3" Content="Добавить SaleDetail в БД" 
+                        Click="AddSaleDetail_Click" Margin="5" Height="30"/>
+
+                <!-- Третья строка кнопок -->
+                <Button Grid.Row="2" Grid.Column="0" Content="Пересоздать БД (10 продуктов)" 
+                        Click="RecreateDatabase_Click" Margin="5" Height="30"
+                        Background="LightBlue" FontWeight="Bold"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="txtInfo" 
+                           Text="Информация о выполненных операциях будет отображаться здесь"
+                           Background="LightYellow" Padding="10" Margin="5"
+                           TextWrapping="Wrap"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- Статус -->
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="4">
+            <StatusBarItem>
+                <TextBlock x:Name="statusText" Text="Готов к работе"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

@@ -1,0 +1,54 @@
+<Window x:Class="MilkProductsCatalog.ConnectionTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Тест подключения к базе данных" 
+        Height="440" 
+        Width="620"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="280"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Поле результатов -->
+        <TextBox Grid.Row="0" 
+                 Name="txtResults"
+                 IsReadOnly="True"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto"
+                 FontFamily="Consolas"
+                 FontSize="9"
+                 Background="White"
+                 Margin="0,0,0,10"/>
+        
+        <!-- Кнопки управления -->
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Left" 
+                    Margin="0,0,0,10">
+            
+            <Button Name="btnAutoSetup" 
+                    Content="Автоматическая настройка" 
+                    Width="180" 
+                    Height="35" 
+                    Background="LightGreen"
+                    Margin="0,0,10,0"/>
+            
+            <Button Name="btnTest" 
+                    Content="Тест подключения" 
+                    Width="120" 
+                    Height="35" 
+                    Margin="0,0,10,0"/>
+            
+            <Button Name="btnCreateDB" 
+                    Content="Создать БД" 
+                    Width="120" 
+                    Height="35"/>
+        </StackPanel>
+    </Grid>
+</Window>

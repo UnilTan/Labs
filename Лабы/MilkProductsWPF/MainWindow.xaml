@@ -1,0 +1,40 @@
+<Window x:Class="MilkProductsWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Каталог молочных продуктов" Height="500" Width="600"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="Каталог молочных продуктов" 
+                   FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="10"/>
+        
+        <StackPanel Grid.Row="1" Orientation="Vertical" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+            
+            <Button Name="btnProducts" Content="Управление продуктами" 
+                    Width="200" Height="40" Margin="10" 
+                    Click="BtnProducts_Click"/>
+            
+            <Button Name="btnSales" Content="Управление продажами" 
+                    Width="200" Height="40" Margin="10" 
+                    Click="BtnSales_Click"/>
+            
+            <Button Name="btnSaleDetails" Content="Детали продаж" 
+                    Width="200" Height="40" Margin="10" 
+                    Click="BtnSaleDetails_Click"/>
+            
+            <Button Name="btnCities" Content="Управление городами" 
+                    Width="200" Height="40" Margin="10" 
+                    Click="BtnCities_Click"/>
+            
+            <Button Name="btnExit" Content="Выход" 
+                    Width="200" Height="40" Margin="10" 
+                    Click="BtnExit_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
