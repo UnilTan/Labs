@@ -1,4 +1,4 @@
-<Window x:Class="MilkProductsBinding.MainWindow"
+<Window x:Class="MilkProductsBinding.BindingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Лабораторная работа 11 - Привязки данных Binding" Height="700" Width="1000"
@@ -136,10 +136,7 @@
                 <Button Grid.Row="2" Grid.Column="0" Content="Пересоздать БД (10 продуктов)" 
                         Click="RecreateDatabase_Click" Margin="5" Height="30"
                         Background="LightBlue" FontWeight="Bold"/>
-                <Button Grid.Row="2" Grid.Column="1" Content="🚀 Открыть ЛР-12" 
-                        Click="OpenLab12_Click" Margin="5" Height="30"
-                        Background="Orange" FontWeight="Bold" FontSize="14"/>
-                <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" x:Name="txtInfo" 
+                <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="txtInfo" 
                            Text="Информация о выполненных операциях будет отображаться здесь"
                            Background="LightYellow" Padding="10" Margin="5"
                            TextWrapping="Wrap"/>

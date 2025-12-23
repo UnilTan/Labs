@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gqDxBTF/Miw=",
+  "dgSpecHash": "4yDtOyXJJSM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Sofia\\OneDrive\\Рабочий стол\\Лабы\\MilkProductsBinding\\MilkProductsBinding.csproj",
+  "projectFilePath": "C:\\Users\\Sofia\\OneDrive\\Dokumente\\GitHub\\Labs\\Лабы\\MilkProductsBinding\\MilkProductsBinding.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Sofia\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Sofia\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

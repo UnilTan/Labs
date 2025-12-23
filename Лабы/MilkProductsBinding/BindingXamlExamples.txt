@@ -1,0 +1,262 @@
+===============================================
+ПРИМЕРЫ XAML РАЗМЕТКИ ДЛЯ ПРИВЯЗОК ДАННЫХ
+Лабораторная работа 11 - Data Binding
+===============================================
+
+1. ПРОСТАЯ ПРИВЯЗКА К TEXTBOX
+===============================================
+
+<!-- Простая привязка свойств объекта к TextBox -->
+<StackPanel x:Name="stProduct" Orientation="Vertical">
+    <!-- Только для чтения (ID генерируется автоматически) -->
+    <TextBox Text="{Binding idProduct}" IsReadOnly="True"/>
+    
+    <!-- Двусторонняя привязка для редактирования -->
+    <TextBox Text="{Binding nameProduct, Mode=TwoWay}"/>
+    <TextBox Text="{Binding priceProduct, Mode=TwoWay}"/>
+    <TextBox Text="{Binding Category, Mode=TwoWay}"/>
+</StackPanel>
+
+<!-- В коде C#: stProduct.DataContext = product; -->
+
+
+2. СЛОЖНАЯ ПРИВЯЗКА С НАВИГАЦИОННЫМИ СВОЙСТВАМИ
+===============================================
+
+<!-- Привязка к связанным объектам через точечную нотацию -->
+<StackPanel x:Name="stDetail" Orientation="Vertical">
+    <!-- Прямые свойства SaleDetails -->
+    <TextBox Text="{Binding IdDetailSale}" IsReadOnly="True"/>
+    <TextBox Text="{Binding IdProductDetailSale}"/>
+    <TextBox Text="{Binding QuantityProduct, Mode=TwoWay}"/>
+    
+    <!-- Навигационные свойства Product через SaleDetails -->
+    <TextBox Text="{Binding Product.nameProduct}" IsReadOnly="True"/>
+    <TextBox Text="{Binding Product.priceProduct}" IsReadOnly="True"/>
+    <TextBox Text="{Binding Product.Category}" IsReadOnly="True"/>
+</StackPanel>
+
+<!-- В коде C#: 
+     var detail = db.DetailSale.Include(d => d.Product).First();
+     stDetail.DataContext = detail; 
+-->
+
+
+3. ПРОСТАЯ ПРИВЯЗКА COMBOBOX
+===============================================
+
+<!-- ComboBox с простой привязкой -->
+<ComboBox x:Name="cmbProduct" 
+          DisplayMemberPath="nameProduct"    <!-- Что показывать -->
+          SelectedValuePath="idProduct"      <!-- Какое значение возвращать -->
+          SelectionChanged="CmbProduct_SelectionChanged"/>
+
+<!-- TextBox для отображения выбранного ID -->
+<TextBox x:Name="txtSelectedId" IsReadOnly="True"/>
+
+<!-- В коде C#:
+     cmbProduct.ItemsSource = db.Product.ToList();
+     
+     private void CmbProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
+     {
+         if (cmbProduct.SelectedValue != null)
+         {
+             int selectedId = Convert.ToInt32(cmbProduct.SelectedValue);
+             txtSelectedId.Text = selectedId.ToString();
+         }
+     }
+-->
+
+
+4. СЛОЖНАЯ ПРИВЯЗКА COMBOBOX С TWOWAY
+===============================================
+
+<!-- ComboBox с двусторонней привязкой к FK -->
+<StackPanel x:Name="stDetailCombo" Orientation="Vertical">
+    <TextBox Text="{Binding IdSale, Mode=TwoWay}"/>
+    
+    <!-- ComboBox автоматически синхронизируется с FK -->
+    <ComboBox x:Name="cmbProductDetail" 
+              DisplayMemberPath="nameProduct" 
+              SelectedValuePath="idProduct"
+              SelectedValue="{Binding IdProductDetailSale, Mode=TwoWay}"/>
+              
+    <TextBox Text="{Binding QuantityProduct, Mode=TwoWay}"/>
+    <TextBox Text="{Binding UnitPrice, Mode=TwoWay}"/>
+</StackPanel>
+
+<!-- В коде C#:
+     cmbProductDetail.ItemsSource = db.Product.ToList();
+     var saleDetail = db.DetailSale.First();
+     stDetailCombo.DataContext = saleDetail;
+     
+     // ComboBox автоматически выберет продукт с idProduct = IdProductDetailSale
+     // При изменении выбора IdProductDetailSale автоматически обновится
+-->
+
+
+5. ПРИВЯЗКА С КОНВЕРТЕРАМИ ЗНАЧЕНИЙ
+===============================================
+
+<!-- Привязка с форматированием -->
+<TextBox Text="{Binding priceProduct, StringFormat=C}"/>           <!-- Валюта -->
+<TextBox Text="{Binding priceProduct, StringFormat=F2}"/>          <!-- 2 знака после запятой -->
+<TextBox Text="{Binding SaleDate, StringFormat=dd.MM.yyyy}"/>      <!-- Дата -->
+
+<!-- Привязка с конвертером (требует создания конвертера) -->
+<TextBox Text="{Binding IsActive, Converter={StaticResource BoolToStringConverter}}"/>
+
+
+6. ПРИВЯЗКА К КОЛЛЕКЦИЯМ (DATAGRID)
+===============================================
+
+<!-- DataGrid с автоматической генерацией столбцов -->
+<DataGrid x:Name="dgProducts" 
+          ItemsSource="{Binding Products}"
+          AutoGenerateColumns="True"
+          CanUserAddRows="True"
+          CanUserDeleteRows="True"/>
+
+<!-- DataGrid с настраиваемыми столбцами -->
+<DataGrid x:Name="dgSaleDetails" ItemsSource="{Binding SaleDetails}">
+    <DataGrid.Columns>
+        <DataGridTextColumn Header="ID" Binding="{Binding IdDetailSale}" IsReadOnly="True"/>
+        <DataGridTextColumn Header="Количество" Binding="{Binding QuantityProduct}"/>
+        <DataGridTextColumn Header="Цена" Binding="{Binding UnitPrice, StringFormat=C}"/>
+        
+        <!-- ComboBox столбец для FK -->
+        <DataGridComboBoxColumn Header="Продукт" 
+                                SelectedValueBinding="{Binding IdProductDetailSale}"
+                                SelectedValuePath="idProduct"
+                                DisplayMemberPath="nameProduct"/>
+    </DataGrid.Columns>
+</DataGrid>
+
+
+7. ПРИВЯЗКА К LISTVIEW С ШАБЛОНАМИ
+===============================================
+
+<!-- ListView с DataTemplate -->
+<ListView x:Name="lvProducts" ItemsSource="{Binding Products}">
+    <ListView.ItemTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding nameProduct}" FontWeight="Bold" Width="200"/>
+                <TextBlock Text="{Binding priceProduct, StringFormat=C}" Width="100"/>
+                <TextBlock Text="{Binding Category}" Width="150"/>
+            </StackPanel>
+        </DataTemplate>
+    </ListView.ItemTemplate>
+</ListView>
+
+<!-- ListView с плитками (для каталога товаров) -->
+<ListView x:Name="lvProductTiles" ItemsSource="{Binding Products}">
+    <ListView.ItemsPanel>
+        <ItemsPanelTemplate>
+            <WrapPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+    </ListView.ItemsPanel>
+    
+    <ListView.ItemTemplate>
+        <DataTemplate>
+            <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
+                <StackPanel Width="200">
+                    <TextBlock Text="{Binding nameProduct}" FontWeight="Bold" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding priceProduct, StringFormat=C}" FontSize="16" Foreground="Green"/>
+                    <TextBlock Text="{Binding Category}" FontStyle="Italic"/>
+                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxHeight="60"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </ListView.ItemTemplate>
+</ListView>
+
+
+8. ПРИВЯЗКА С ВАЛИДАЦИЕЙ
+===============================================
+
+<!-- TextBox с валидацией -->
+<TextBox Text="{Binding priceProduct, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+
+<!-- Стиль для отображения ошибок валидации -->
+<Style TargetType="TextBox">
+    <Style.Triggers>
+        <Trigger Property="Validation.HasError" Value="True">
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Trigger>
+    </Style.Triggers>
+</Style>
+
+
+9. ПРИВЯЗКА К КОМАНДАМ (MVVM PATTERN)
+===============================================
+
+<!-- Кнопки с привязкой к командам -->
+<Button Content="Сохранить" Command="{Binding SaveCommand}"/>
+<Button Content="Удалить" Command="{Binding DeleteCommand}" 
+        CommandParameter="{Binding SelectedItem}"/>
+
+<!-- Контекстное меню с командами -->
+<ContextMenu>
+    <MenuItem Header="Редактировать" Command="{Binding EditCommand}"/>
+    <MenuItem Header="Удалить" Command="{Binding DeleteCommand}"/>
+</ContextMenu>
+
+
+10. МНОГОУРОВНЕВАЯ ПРИВЯЗКА
+===============================================
+
+<!-- Привязка к свойствам вложенных объектов -->
+<TextBox Text="{Binding SelectedSale.Customer.Name}"/>
+<TextBox Text="{Binding SelectedSale.Customer.Address.City}"/>
+<TextBox Text="{Binding SelectedSale.SaleDetails[0].Product.nameProduct}"/>
+
+
+11. УСЛОВНАЯ ПРИВЯЗКА И ТРИГГЕРЫ
+===============================================
+
+<!-- Изменение внешнего вида в зависимости от данных -->
+<TextBlock Text="{Binding nameProduct}">
+    <TextBlock.Style>
+        <Style TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding priceProduct}" Value="0">
+                    <Setter Property="Foreground" Value="Red"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </TextBlock.Style>
+</TextBlock>
+
+<!-- Видимость элемента в зависимости от данных -->
+<Button Content="Скидка" 
+        Visibility="{Binding HasDiscount, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+
+12. ПРИВЯЗКА К РЕСУРСАМ И СТАТИЧЕСКИМ ДАННЫМ
+===============================================
+
+<!-- Привязка к статическим ресурсам -->
+<TextBlock Text="{Binding Source={x:Static local:Constants.CompanyName}}"/>
+
+<!-- Привязка к элементам интерфейса -->
+<TextBlock Text="{Binding ElementName=txtSearch, Path=Text}"/>
+<Slider Value="{Binding ElementName=txtValue, Path=Text, Mode=TwoWay}"/>
+
+
+===============================================
+КЛЮЧЕВЫЕ МОМЕНТЫ ДЛЯ ЗАПОМИНАНИЯ:
+===============================================
+
+1. DataContext - основа всех привязок
+2. Mode=TwoWay - для редактируемых полей
+3. Include() - для навигационных свойств
+4. StringFormat - для форматирования
+5. Validation - для проверки данных
+6. Commands - для MVVM архитектуры
+7. Converters - для преобразования данных
+8. Triggers - для условного форматирования
+
+===============================================

@@ -2019,11 +2019,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Sofia\\OneDrive\\Рабочий стол\\Лабы\\MilkProductsBinding\\MilkProductsBinding.csproj",
+      "projectUniqueName": "C:\\Users\\Sofia\\OneDrive\\Dokumente\\GitHub\\Labs\\Лабы\\MilkProductsBinding\\MilkProductsBinding.csproj",
       "projectName": "MilkProductsBinding",
-      "projectPath": "C:\\Users\\Sofia\\OneDrive\\Рабочий стол\\Лабы\\MilkProductsBinding\\MilkProductsBinding.csproj",
+      "projectPath": "C:\\Users\\Sofia\\OneDrive\\Dokumente\\GitHub\\Labs\\Лабы\\MilkProductsBinding\\MilkProductsBinding.csproj",
       "packagesPath": "C:\\Users\\Sofia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Sofia\\OneDrive\\Рабочий стол\\Лабы\\MilkProductsBinding\\obj\\",
+      "outputPath": "C:\\Users\\Sofia\\OneDrive\\Dokumente\\GitHub\\Labs\\Лабы\\MilkProductsBinding\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

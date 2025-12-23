@@ -63,6 +63,12 @@ namespace MilkProductsBinding
         {
             try
             {
+                // Закрываем текущий контекст
+                db?.Dispose();
+                
+                // Создаем новый контекст
+                db = new SalesContext();
+                
                 // Удаляем базу данных
                 db.Database.EnsureDeleted();
                 
@@ -76,97 +82,140 @@ namespace MilkProductsBinding
                 cmbProduct.ItemsSource = db.Product.ToList();
                 cmbProductDetail.ItemsSource = db.Product.ToList();
                 
-                txtInfo.Text = $"База данных пересоздана! Теперь в ней {db.Product.Count()} продуктов.";
+                txtInfo.Text = $"База данных пересоздана! Теперь в ней {db.Product.Count()} продуктов и {db.DetailSale.Count()} деталей продаж.";
                 statusText.Text = "База данных обновлена";
                 
-                MessageBox.Show($"База данных успешно пересоздана с {db.Product.Count()} продуктами!", 
+                MessageBox.Show($"База данных успешно пересоздана с {db.Product.Count()} продуктами и {db.DetailSale.Count()} деталями продаж!", 
                     "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка пересоздания БД: {ex.Message}", "Ошибка", 
+                MessageBox.Show($"Ошибка пересоздания БД: {ex.Message}\n\nВнутренняя ошибка: {ex.InnerException?.Message}", "Ошибка", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
+                
+                // Пытаемся создать новый контекст для продолжения работы
+                try
+                {
+                    db?.Dispose();
+                    db = new SalesContext();
+                    db.Database.EnsureCreated();
+                }
+                catch
+                {
+                    // Если и это не удалось, сообщаем пользователю
+                    statusText.Text = "Критическая ошибка БД";
+                }
             }
         }
 
         private void SeedDatabase()
         {
-            // Проверяем, есть ли уже данные
-            if (db.Product.Any())
-                return;
-
-            // Добавляем 10 тестовых продуктов (молочные продукты)
-            var products = new[]
+            try
             {
-                new Product { nameProduct = "Молоко 3.2%", priceProduct = 65.50m, Category = "Молоко", ExpiryDays = 7, Description = "Пастеризованное молоко жирностью 3.2%" },
-                new Product { nameProduct = "Творог 9%", priceProduct = 120.00m, Category = "Творог", ExpiryDays = 5, Description = "Творог жирностью 9%" },
-                new Product { nameProduct = "Сметана 20%", priceProduct = 85.30m, Category = "Сметана", ExpiryDays = 10, Description = "Сметана жирностью 20%" },
-                new Product { nameProduct = "Кефир 2.5%", priceProduct = 55.80m, Category = "Кефир", ExpiryDays = 5, Description = "Кефир жирностью 2.5%" },
-                new Product { nameProduct = "Йогурт натуральный", priceProduct = 95.00m, Category = "Йогурт", ExpiryDays = 14, Description = "Натуральный йогурт без добавок" },
-                new Product { nameProduct = "Масло сливочное 82.5%", priceProduct = 180.00m, Category = "Масло", ExpiryDays = 30, Description = "Сливочное масло высшего сорта" },
-                new Product { nameProduct = "Сыр российский", priceProduct = 450.00m, Category = "Сыр", ExpiryDays = 60, Description = "Твердый сыр российский 45%" },
-                new Product { nameProduct = "Ряженка 4%", priceProduct = 68.90m, Category = "Кисломолочные", ExpiryDays = 7, Description = "Ряженка жирностью 4%" },
-                new Product { nameProduct = "Творожная масса с изюмом", priceProduct = 135.50m, Category = "Творог", ExpiryDays = 5, Description = "Творожная масса 16% с изюмом" },
-                new Product { nameProduct = "Молоко топленое 6%", priceProduct = 78.20m, Category = "Молоко", ExpiryDays = 10, Description = "Топленое молоко жирностью 6%" }
-            };
+                // Проверяем, есть ли уже данные
+                if (db.Product.Any())
+                    return;
 
-            db.Product.AddRange(products);
-            db.SaveChanges();
+                // Добавляем 10 тестовых продуктов (молочные продукты)
+                var products = new[]
+                {
+                    new Product { nameProduct = "Молоко 3.2%", priceProduct = 65.50m, Category = "Молоко", ExpiryDays = 7, Description = "Пастеризованное молоко жирностью 3.2%" },
+                    new Product { nameProduct = "Творог 9%", priceProduct = 120.00m, Category = "Творог", ExpiryDays = 5, Description = "Творог жирностью 9%" },
+                    new Product { nameProduct = "Сметана 20%", priceProduct = 85.30m, Category = "Сметана", ExpiryDays = 10, Description = "Сметана жирностью 20%" },
+                    new Product { nameProduct = "Кефир 2.5%", priceProduct = 55.80m, Category = "Кефир", ExpiryDays = 5, Description = "Кефир жирностью 2.5%" },
+                    new Product { nameProduct = "Йогурт натуральный", priceProduct = 95.00m, Category = "Йогурт", ExpiryDays = 14, Description = "Натуральный йогурт без добавок" },
+                    new Product { nameProduct = "Масло сливочное 82.5%", priceProduct = 180.00m, Category = "Масло", ExpiryDays = 30, Description = "Сливочное масло высшего сорта" },
+                    new Product { nameProduct = "Сыр российский", priceProduct = 450.00m, Category = "Сыр", ExpiryDays = 60, Description = "Твердый сыр российский 45%" },
+                    new Product { nameProduct = "Ряженка 4%", priceProduct = 68.90m, Category = "Кисломолочные", ExpiryDays = 7, Description = "Ряженка жирностью 4%" },
+                    new Product { nameProduct = "Творожная масса с изюмом", priceProduct = 135.50m, Category = "Творог", ExpiryDays = 5, Description = "Творожная масса 16% с изюмом" },
+                    new Product { nameProduct = "Молоко топленое 6%", priceProduct = 78.20m, Category = "Молоко", ExpiryDays = 10, Description = "Топленое молоко жирностью 6%" }
+                };
 
-            // Добавляем 7 тестовых продаж
-            var sales = new[]
+                db.Product.AddRange(products);
+                db.SaveChanges();
+
+                // Добавляем 10 тестовых продаж
+                var sales = new[]
+                {
+                    new Sale { SaleDate = DateTime.Parse("2024-01-15 10:30:00"), CustomerName = "Иванов И.И.", TotalAmount = 346.60m },
+                    new Sale { SaleDate = DateTime.Parse("2024-01-16 14:20:00"), CustomerName = "Петрова А.С.", TotalAmount = 275.80m },
+                    new Sale { SaleDate = DateTime.Parse("2024-01-17 09:15:00"), CustomerName = "Сидоров П.П.", TotalAmount = 190.00m },
+                    new Sale { SaleDate = DateTime.Parse("2024-01-18 16:45:00"), CustomerName = "Козлова М.В.", TotalAmount = 625.30m },
+                    new Sale { SaleDate = DateTime.Parse("2024-01-19 11:30:00"), CustomerName = "Морозов Д.А.", TotalAmount = 310.50m },
+                    new Sale { SaleDate = DateTime.Parse("2024-01-20 15:45:00"), CustomerName = "Васильева О.П.", TotalAmount = 520.70m },
+                    new Sale { SaleDate = DateTime.Parse("2024-01-21 09:20:00"), CustomerName = "Николаев С.В.", TotalAmount = 415.40m },
+                    new Sale { SaleDate = DateTime.Parse("2024-01-22 12:15:00"), CustomerName = "Федоров А.Н.", TotalAmount = 285.90m },
+                    new Sale { SaleDate = DateTime.Parse("2024-01-23 16:30:00"), CustomerName = "Смирнова Е.В.", TotalAmount = 395.20m },
+                    new Sale { SaleDate = DateTime.Parse("2024-01-24 10:45:00"), CustomerName = "Кузнецов М.П.", TotalAmount = 220.50m }
+                };
+
+                db.Sale.AddRange(sales);
+                db.SaveChanges();
+
+                // Получаем реальные ID продуктов и продаж из базы
+                var productIds = db.Product.Select(p => p.idProduct).ToList();
+                var saleIds = db.Sale.Select(s => s.IdSale).ToList();
+
+                // Добавляем 28 деталей продаж с корректными FK
+                var saleDetails = new[]
+                {
+                    // Продажа 1 - Иванов И.И.
+                    new SaleDetails { IdSale = saleIds[0], IdProductDetailSale = productIds[0], QuantityProduct = 2, UnitPrice = 65.50m },
+                    new SaleDetails { IdSale = saleIds[0], IdProductDetailSale = productIds[1], QuantityProduct = 1, UnitPrice = 120.00m },
+                    new SaleDetails { IdSale = saleIds[0], IdProductDetailSale = productIds[2], QuantityProduct = 1, UnitPrice = 85.30m },
+                    
+                    // Продажа 2 - Петрова А.С.
+                    new SaleDetails { IdSale = saleIds[1], IdProductDetailSale = productIds[3], QuantityProduct = 2, UnitPrice = 55.80m },
+                    new SaleDetails { IdSale = saleIds[1], IdProductDetailSale = productIds[4], QuantityProduct = 1, UnitPrice = 95.00m },
+                    new SaleDetails { IdSale = saleIds[1], IdProductDetailSale = productIds[7], QuantityProduct = 1, UnitPrice = 68.90m },
+                    
+                    // Продажа 3 - Сидоров П.П.
+                    new SaleDetails { IdSale = saleIds[2], IdProductDetailSale = productIds[1], QuantityProduct = 1, UnitPrice = 120.00m },
+                    new SaleDetails { IdSale = saleIds[2], IdProductDetailSale = productIds[9], QuantityProduct = 1, UnitPrice = 78.20m },
+                    
+                    // Продажа 4 - Козлова М.В. (большая покупка)
+                    new SaleDetails { IdSale = saleIds[3], IdProductDetailSale = productIds[5], QuantityProduct = 1, UnitPrice = 180.00m },
+                    new SaleDetails { IdSale = saleIds[3], IdProductDetailSale = productIds[6], QuantityProduct = 1, UnitPrice = 450.00m },
+                    new SaleDetails { IdSale = saleIds[3], IdProductDetailSale = productIds[0], QuantityProduct = 1, UnitPrice = 65.50m },
+                    
+                    // Продажа 5 - Морозов Д.А.
+                    new SaleDetails { IdSale = saleIds[4], IdProductDetailSale = productIds[8], QuantityProduct = 1, UnitPrice = 135.50m },
+                    new SaleDetails { IdSale = saleIds[4], IdProductDetailSale = productIds[2], QuantityProduct = 2, UnitPrice = 85.30m },
+                    
+                    // Продажа 6 - Васильева О.П.
+                    new SaleDetails { IdSale = saleIds[5], IdProductDetailSale = productIds[6], QuantityProduct = 1, UnitPrice = 450.00m },
+                    new SaleDetails { IdSale = saleIds[5], IdProductDetailSale = productIds[4], QuantityProduct = 1, UnitPrice = 95.00m },
+                    new SaleDetails { IdSale = saleIds[5], IdProductDetailSale = productIds[3], QuantityProduct = 1, UnitPrice = 55.80m },
+                    
+                    // Продажа 7 - Николаев С.В.
+                    new SaleDetails { IdSale = saleIds[6], IdProductDetailSale = productIds[5], QuantityProduct = 2, UnitPrice = 180.00m },
+                    new SaleDetails { IdSale = saleIds[6], IdProductDetailSale = productIds[7], QuantityProduct = 1, UnitPrice = 68.90m },
+                    new SaleDetails { IdSale = saleIds[6], IdProductDetailSale = productIds[9], QuantityProduct = 1, UnitPrice = 78.20m },
+                    
+                    // Продажа 8 - Федоров А.Н.
+                    new SaleDetails { IdSale = saleIds[7], IdProductDetailSale = productIds[0], QuantityProduct = 3, UnitPrice = 65.50m },
+                    new SaleDetails { IdSale = saleIds[7], IdProductDetailSale = productIds[3], QuantityProduct = 1, UnitPrice = 55.80m },
+                    new SaleDetails { IdSale = saleIds[7], IdProductDetailSale = productIds[8], QuantityProduct = 1, UnitPrice = 135.50m },
+                    
+                    // Продажа 9 - Смирнова Е.В.
+                    new SaleDetails { IdSale = saleIds[8], IdProductDetailSale = productIds[1], QuantityProduct = 2, UnitPrice = 120.00m },
+                    new SaleDetails { IdSale = saleIds[8], IdProductDetailSale = productIds[5], QuantityProduct = 1, UnitPrice = 180.00m },
+                    new SaleDetails { IdSale = saleIds[8], IdProductDetailSale = productIds[4], QuantityProduct = 1, UnitPrice = 95.00m },
+                    
+                    // Продажа 10 - Кузнецов М.П.
+                    new SaleDetails { IdSale = saleIds[9], IdProductDetailSale = productIds[2], QuantityProduct = 1, UnitPrice = 85.30m },
+                    new SaleDetails { IdSale = saleIds[9], IdProductDetailSale = productIds[7], QuantityProduct = 2, UnitPrice = 68.90m },
+                    new SaleDetails { IdSale = saleIds[9], IdProductDetailSale = productIds[9], QuantityProduct = 1, UnitPrice = 78.20m }
+                };
+
+                db.DetailSale.AddRange(saleDetails);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
             {
-                new Sale { SaleDate = DateTime.Parse("2024-01-15 10:30:00"), CustomerName = "Иванов И.И.", TotalAmount = 346.60m },
-                new Sale { SaleDate = DateTime.Parse("2024-01-16 14:20:00"), CustomerName = "Петрова А.С.", TotalAmount = 275.80m },
-                new Sale { SaleDate = DateTime.Parse("2024-01-17 09:15:00"), CustomerName = "Сидоров П.П.", TotalAmount = 190.00m },
-                new Sale { SaleDate = DateTime.Parse("2024-01-18 16:45:00"), CustomerName = "Козлова М.В.", TotalAmount = 625.30m },
-                new Sale { SaleDate = DateTime.Parse("2024-01-19 11:30:00"), CustomerName = "Морозов Д.А.", TotalAmount = 310.50m },
-                new Sale { SaleDate = DateTime.Parse("2024-01-20 15:45:00"), CustomerName = "Васильева О.П.", TotalAmount = 520.70m },
-                new Sale { SaleDate = DateTime.Parse("2024-01-21 09:20:00"), CustomerName = "Николаев С.В.", TotalAmount = 415.40m }
-            };
-
-            db.Sale.AddRange(sales);
-            db.SaveChanges();
-
-            // Добавляем 20+ деталей продаж (используем все 10 продуктов)
-            var saleDetails = new[]
-            {
-                // Продажа 1 - Иванов И.И.
-                new SaleDetails { IdSale = 1, IdProductDetailSale = 1, QuantityProduct = 2, UnitPrice = 65.50m },
-                new SaleDetails { IdSale = 1, IdProductDetailSale = 2, QuantityProduct = 1, UnitPrice = 120.00m },
-                new SaleDetails { IdSale = 1, IdProductDetailSale = 3, QuantityProduct = 1, UnitPrice = 85.30m },
-                
-                // Продажа 2 - Петрова А.С.
-                new SaleDetails { IdSale = 2, IdProductDetailSale = 4, QuantityProduct = 2, UnitPrice = 55.80m },
-                new SaleDetails { IdSale = 2, IdProductDetailSale = 5, QuantityProduct = 1, UnitPrice = 95.00m },
-                new SaleDetails { IdSale = 2, IdProductDetailSale = 8, QuantityProduct = 1, UnitPrice = 68.90m },
-                
-                // Продажа 3 - Сидоров П.П.
-                new SaleDetails { IdSale = 3, IdProductDetailSale = 2, QuantityProduct = 1, UnitPrice = 120.00m },
-                new SaleDetails { IdSale = 3, IdProductDetailSale = 10, QuantityProduct = 1, UnitPrice = 78.20m },
-                
-                // Продажа 4 - Козлова М.В. (большая покупка)
-                new SaleDetails { IdSale = 4, IdProductDetailSale = 6, QuantityProduct = 1, UnitPrice = 180.00m },
-                new SaleDetails { IdSale = 4, IdProductDetailSale = 7, QuantityProduct = 1, UnitPrice = 450.00m },
-                new SaleDetails { IdSale = 4, IdProductDetailSale = 1, QuantityProduct = 1, UnitPrice = 65.50m },
-                
-                // Продажа 5 - Морозов Д.А.
-                new SaleDetails { IdSale = 5, IdProductDetailSale = 9, QuantityProduct = 1, UnitPrice = 135.50m },
-                new SaleDetails { IdSale = 5, IdProductDetailSale = 3, QuantityProduct = 2, UnitPrice = 85.30m },
-                
-                // Продажа 6 - Васильева О.П.
-                new SaleDetails { IdSale = 6, IdProductDetailSale = 7, QuantityProduct = 1, UnitPrice = 450.00m },
-                new SaleDetails { IdSale = 6, IdProductDetailSale = 5, QuantityProduct = 1, UnitPrice = 95.00m },
-                new SaleDetails { IdSale = 6, IdProductDetailSale = 4, QuantityProduct = 1, UnitPrice = 55.80m },
-                
-                // Продажа 7 - Николаев С.В.
-                new SaleDetails { IdSale = 7, IdProductDetailSale = 6, QuantityProduct = 2, UnitPrice = 180.00m },
-                new SaleDetails { IdSale = 7, IdProductDetailSale = 8, QuantityProduct = 1, UnitPrice = 68.90m },
-                new SaleDetails { IdSale = 7, IdProductDetailSale = 10, QuantityProduct = 1, UnitPrice = 78.20m }
-            };
-
-            db.DetailSale.AddRange(saleDetails);
-            db.SaveChanges();
+                // Логируем ошибку, но не прерываем работу приложения
+                System.Diagnostics.Debug.WriteLine($"Ошибка заполнения БД: {ex.Message}");
+            }
         }
 
         #region 1. Простая привязка данных к TextBox
@@ -529,6 +578,30 @@ namespace MilkProductsBinding
             if (result == MessageBoxResult.Yes)
             {
                 RecreateDatabase();
+            }
+        }
+
+        #endregion
+
+        #region Открытие ЛР-12
+
+        /// <summary>
+        /// Открывает окно ЛР-12 с DataGrid, ComboBox-столбцами и ListView
+        /// </summary>
+        private void OpenLab12_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Lab12Window lab12Window = new Lab12Window();
+                lab12Window.ShowDialog();
+                
+                txtInfo.Text = "Открыто окно ЛР-12: DataGrid с привязками, ComboBox-столбцы, ListView каталог товаров";
+                statusText.Text = "ЛР-12 запущена";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка открытия ЛР-12: {ex.Message}", "Ошибка", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MilkProductsBinding")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87057cc9c1a3a17cb6bfbb8bef15d9901389be37")]
 [assembly: System.Reflection.AssemblyProductAttribute("MilkProductsBinding")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MilkProductsBinding")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
