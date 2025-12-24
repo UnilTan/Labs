@@ -1,5 +1,0 @@
-C:\Users\Sofia\OneDrive\Рабочий стол\Лабы\MilkProductsCatalog\obj\Debug\net6.0-windows\MilkProductsCatalog.csproj.AssemblyReference.cache
-C:\Users\Sofia\OneDrive\Рабочий стол\Лабы\MilkProductsCatalog\obj\Debug\net6.0-windows\MilkProductsCatalog.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Sofia\OneDrive\Рабочий стол\Лабы\MilkProductsCatalog\obj\Debug\net6.0-windows\MilkProductsCatalog.AssemblyInfoInputs.cache
-C:\Users\Sofia\OneDrive\Рабочий стол\Лабы\MilkProductsCatalog\obj\Debug\net6.0-windows\MilkProductsCatalog.AssemblyInfo.cs
-C:\Users\Sofia\OneDrive\Рабочий стол\Лабы\MilkProductsCatalog\obj\Debug\net6.0-windows\MilkProductsCatalog.csproj.CoreCompileInputs.cache
