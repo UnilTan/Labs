@@ -11,7 +11,7 @@ namespace MilkProductsBinding
     public partial class MainWindow : Window
     {
         private SalesContext db = new SalesContext();
-        private readonly BindingDataProvider dataProvider = new BindingDataProvider("Server=.\\SQLEXPRESS;Database=Familia22i1L9;Integrated Security=true;TrustServerCertificate=true;Encrypt=false;");
+        private readonly BindingDataProvider dataProvider = new BindingDataProvider("Server=(localdb)\\mssqllocaldb;Database=Familia22i1L9;Trusted_Connection=true;TrustServerCertificate=true;");
         
         // РџРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ РЅРѕРІС‹С… РѕР±СЉРµРєС‚РѕРІ (РІРёРґРЅС‹ РІРѕ РІСЃРµС… РјРµС‚РѕРґР°С…)
         private Product productNew = new Product();
@@ -402,26 +402,26 @@ namespace MilkProductsBinding
             {
                 if (productNew == null || string.IsNullOrWhiteSpace(productNew.nameProduct) || string.IsNullOrWhiteSpace(productNew.Category))
                 {
-                    MessageBox.Show("Заполните наименование и категорию продукта перед сохранением.", "Валидация", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.", "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
                 int changesCount = db.SaveChanges();
                 ReloadProductSources();
 
-                txtInfo.Text = $"Сохранено изменений: {changesCount}.\n" +
-                              "Объекты сохранены в базу.";
-                statusText.Text = $"Сохранено {changesCount} изменений";
+                txtInfo.Text = $"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: {changesCount}.\n" +
+                              "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ.";
+                statusText.Text = $"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {changesCount} пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
                 if (changesCount > 0)
                 {
-                    MessageBox.Show($"Успешно сохранено {changesCount} изменений в базу!", 
-                        "Сохранение", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {changesCount} пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ!", 
+                        "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка сохранения: {ex.Message}", "Ошибка", 
+                MessageBox.Show($"пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: {ex.Message}", "пїЅпїЅпїЅпїЅпїЅпїЅ", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

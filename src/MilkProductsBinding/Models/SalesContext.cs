@@ -21,13 +21,12 @@ namespace MilkProductsBinding.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connectionString = MilkProducts.Shared.Configuration.ConnectionStringProvider.GetConnectionString(
-                    "Server=localhost;Database=Familia22i1L9;Integrated Security=true;TrustServerCertificate=true;Encrypt=false;");
-
-                MilkProducts.Shared.Data.DbContextOptionsFactory.ConfigureSqlServer(
-                    optionsBuilder,
-                    connectionString,
-                    MilkProducts.Shared.Data.DbContextOptionsFactory.CreateLoggerFactory());
+                // Используем LocalDB для простоты подключения
+                var connectionString = "Server=(localdb)\\mssqllocaldb;Database=Familia22i1L9;Trusted_Connection=true;TrustServerCertificate=true;";
+                
+                optionsBuilder.UseSqlServer(connectionString);
+                optionsBuilder.EnableSensitiveDataLogging();
+                optionsBuilder.LogTo(System.Console.WriteLine);
             }
         }
 
